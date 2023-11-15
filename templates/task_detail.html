@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .task-details {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .task-details p {
+            margin: 5px 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0px 0px 10px 0px #000000;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+  <h1>Task Details</h1>
+
+  <div class="task-details">
+    <p><strong>Wallet Number:</strong> {{ task.qiwi_wallet }}</p>
+    <p><strong>Password:</strong> {{ task.qiwi_pass }}</p>
+    <p><strong>Amount:</strong> {{ task.amount }}</p>
+    <p><strong>Status:</strong> {{ task.get_status_display }}</p>
+    <p><strong>Phones:</strong>{{ task.phones }}</p>
+    <p><strong>Created:</strong>{{ task.created_at }}</p>
+
+  </div>
+
+  <h2>Task Logs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Log Entry</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+        <tr>
+          <td>{{ log.log_entry }}</td>
+          <td>{{ log.timestamp }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{% url 'task-list' %}">Back to Task List</a>
+
+</body>
+</html>
