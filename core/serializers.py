@@ -11,4 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['qiwi_wallet', 'qiwi_pass', 'amount', 'phones', 'created_at']
+        fields = '__all__'

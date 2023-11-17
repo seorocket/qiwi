@@ -32,25 +32,10 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return User.objects.all()
 
+
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-        serializer = self.get_serializer(queryset, many=True)
-
-        formatted_data = []
-        for task_data in serializer.data:
-            formatted_data.append({
-                "id": task_data['id'],
-                "wallet_number": task_data['qiwi_wallet'],
-                "password": task_data['qiwi_pass'],
-                "amount": task_data['amount'],
-                "phones": task_data['phones'].split(','),
-            })
-
-        return Response(formatted_data)
 
     @action(detail=False, methods=['get'], url_path='get-and-update-task')
     def get_and_update_task(self, request, *args, **kwargs):
