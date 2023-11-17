@@ -43,6 +43,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         formatted_data = []
         for task_data in serializer.data:
             formatted_data.append({
+                "id": task_data['id'],
                 "wallet_number": task_data['qiwi_wallet'],
                 "password": task_data['qiwi_pass'],
                 "amount": task_data['amount'],
