@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import UserSerializer
 from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from .models import *
@@ -49,6 +50,17 @@ class TaskViewSet(viewsets.ModelViewSet):
             })
 
         return Response(formatted_data)
+
+    @action(detail=False, methods=['get'], url_path='get-and-update-task')
+    def get_and_update_task(self, request, *args, **kwargs):
+        task_instance = Task.objects.filter(status=1).order_by('id').first()
+        if task_instance:
+            serializer = self.get_serializer(task_instance)
+            task_instance.status = 2
+            task_instance.save()
+            return Response(serializer.data)
+        else:
+            return Response({'detail': 'No task with status 0 found.'}, status=status.HTTP_404_NOT_FOUND)
 
 class TaskCreateView(APIView):
     def get(self, request, *args, **kwargs):
