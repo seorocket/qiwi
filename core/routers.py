@@ -6,6 +6,7 @@ from .views import *
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='users')
 router.register(r'tasks', TaskViewSet, basename='task')
+router.register(r'tasklogs', TaskLogViewSet, basename='tasklog')
 
 urlpatterns = [
     path('', include(router.urls)),

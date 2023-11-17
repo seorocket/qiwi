@@ -94,3 +94,7 @@ def task_detail(request, pk):
 
 def home(request):
     return render(request, 'home.html')
+
+class TaskLogViewSet(viewsets.ModelViewSet):
+    queryset = TaskLog.objects.all()
+    serializer_class = TaskLogSerializer
