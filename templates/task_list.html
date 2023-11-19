@@ -1,3 +1,4 @@
+<!-- task_list.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +35,7 @@
             background-color: #f2f2f2;
         }
 
-        .details-btn {
+        .details-btn, .stop-task, .delete-task, .start-task {
             background-color: #4CAF50;
             color: white;
             padding: 8px 16px;
@@ -42,10 +43,23 @@
             text-decoration: none;
             display: inline-block;
             border-radius: 4px;
+            margin-right: 10px;
         }
 
-        .details-btn:hover {
-            background-color: #45a049;
+        .stop-task {
+            background-color: #e74c3c;
+        }
+
+        .delete-task {
+            background-color: #3498db;
+        }
+
+        .start-task {
+            background-color: #67f806;
+        }
+
+        .details-btn:hover, .stop-task:hover, .delete-task:hover {
+            background-color: #de8818;
         }
 
         .pagination {
@@ -89,15 +103,27 @@
         <tr>
           <td>{{ task.qiwi_wallet }}</td>
           <td>{{ task.get_status_display }}</td>
-          <td><a href="{% url 'task-detail' task.id %}" class="details-btn">Details</a></td>
+          <td>
+            <a href="{% url 'task-detail' task.id %}" class="details-btn">Details</a>
+          <form method="post" action="{% url 'task-start' task.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="start-task" {% if task.status == 4 %}style="background-color: #fff; color: #333;"{% endif %}>Start</button>
+            </form>
+            <form method="post" action="{% url 'task-stop' task.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="stop-task" {% if task.status == 0 %}style="background-color: #fff; color: #333;"{% endif %}>Stop</button>
+            </form>
+            <form method="post" action="{% url 'task-delete' task.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-task">Delete</button>
+            </form>
+          </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
 
   <div class="pagination">
-    <!-- Ваш код пагинации... -->
-  </div>
 
 </body>
 </html>

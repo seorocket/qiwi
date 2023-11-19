@@ -37,6 +37,38 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return redirect('task-list')
+
+    @action(detail=True, methods=['post'])
+    def start_task(self, request, pk=None):
+        task = self.get_object()
+        task.status = 4
+        task.save()
+        return redirect('task-list')
+
+    @action(detail=True, methods=['post'])
+    def stop_task(self, request, pk=None):
+        task = self.get_object()
+        task.status = 0
+        task.save()
+        return redirect('task-list')
+
+    @action(detail=False, methods=['get'], url_path='get-and-start-task')
+    def get_and_start_task(self, request, *args, **kwargs):
+        task_instance = Task.objects.filter(status=4).order_by('id').first()
+        if task_instance:
+            serializer = self.get_serializer(task_instance)
+            task_instance.status = 2
+            task_instance.save()
+            return Response(serializer.data)
+        else:
+            return Response({'detail': 'No task with status 4 found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
     @action(detail=False, methods=['get'], url_path='get-and-update-task')
     def get_and_update_task(self, request, *args, **kwargs):
         task_instance = Task.objects.filter(status=1).order_by('id').first()
@@ -64,9 +96,8 @@ class TaskCreateView(APIView):
                 amount=form.cleaned_data['amount']
             )
 
-            # Возвращаем ответ с данными созданной задачи
-            serializer = TaskSerializer(task)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # После сохранения задачи, выполните редирект на task_list
+            return redirect('task-list')  # Замените 'task-list' на ваш фактический URL-путь
 
         return render(request, 'task_create.html', {'form': form})
 

@@ -5,6 +5,8 @@ class Task(models.Model):
         (1, 'Todo'),
         (2, 'In Progress'),
         (3, 'Done'),
+        (0, 'Stopped'),
+        (4, 'Start'),
     )
     qiwi_wallet = models.CharField(max_length=20)
     qiwi_pass = models.CharField(max_length=50)
