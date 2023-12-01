@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'qiwi',
         'USER': 'pweb',
-        'PASSWORD': 'Cfxfhysq1',
+        'PASSWORD': 'pweb',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

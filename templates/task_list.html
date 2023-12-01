@@ -102,7 +102,11 @@
       {% for task in tasks %}
         <tr>
           <td>{{ task.qiwi_wallet }}</td>
-          <td>{{ task.get_status_display }}</td>
+          <td>{% if task.get_status_display == 'In Progress' %}
+        {{ task.get_status_display }} {{ task.progress }}
+    {% else %}
+        {{ task.get_status_display }}
+    {% endif %}</td>
           <td>
             <a href="{% url 'task-detail' task.id %}" class="details-btn">Details</a>
           <form method="post" action="{% url 'task-start' task.id %}" style="display: inline;">

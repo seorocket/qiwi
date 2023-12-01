@@ -7,10 +7,12 @@ class Task(models.Model):
         (3, 'Done'),
         (0, 'Stopped'),
         (4, 'Start'),
+        (5, 'Error'),
     )
     qiwi_wallet = models.CharField(max_length=20)
     qiwi_pass = models.CharField(max_length=50)
     phones = models.TextField()
+    progress = models.CharField(max_length=50, default='loading...')
     amount = models.IntegerField('Сумма (₽)')
     status = models.IntegerField(choices=STATUS_CHOICES, default=1)
     created_at = models.DateTimeField(auto_now_add=True)

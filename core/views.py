@@ -80,6 +80,12 @@ class TaskViewSet(viewsets.ModelViewSet):
         else:
             return Response({'detail': 'No task with status 0 found.'}, status=status.HTTP_404_NOT_FOUND)
 
+def task_delete(request, pk):
+    item = get_object_or_404(Task, id=pk)
+    item.delete()
+    return redirect('task-list')
+
+
 class TaskCreateView(APIView):
     def get(self, request, *args, **kwargs):
         form = TaskForm()
